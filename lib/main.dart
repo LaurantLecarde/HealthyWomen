@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_women/presentation/screens/bottom_screens/news_pages/news_page.dart';
 import 'package:healthy_women/presentation/screens/main_page.dart';
 
 void main() {
@@ -11,11 +12,13 @@ class HealthyWomen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        useMaterial3: true
+        useMaterial3: true,
+        primaryColor: const Color(0xfff4f5f6)
       ),
-      home: const MainPage(),
+      home: const NewsPage(),
     );
   }
 }
