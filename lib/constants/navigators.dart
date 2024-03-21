@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 navPush(context,Widget to){
   Navigator.of(context).push(CupertinoPageRoute(builder: (context)=>to));
