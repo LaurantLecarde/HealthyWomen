@@ -1,8 +1,14 @@
+
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../constants/colors_app.dart';
+import '../../../../constants/dates_today_kcal.dart';import '../../../../constants/navigators.dart';
+import 'kcal_page.dart';
+import 'on_bike_page.dart';
+import 'on_foot_page.dart';
 
 class AnalyzePage extends StatefulWidget {
   const AnalyzePage({super.key});
@@ -12,6 +18,12 @@ class AnalyzePage extends StatefulWidget {
 }
 
 class _DateShowerState extends State<AnalyzePage> {
+  List<Color> gradientColors = [
+    AppColors.appColor,
+    AppColors.appColor,
+    AppColors.appColor
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,66 +56,19 @@ class _DateShowerState extends State<AnalyzePage> {
       child: Column(
         children: [
           const Gap(20),
-          _dateSection(),
-          _kcalSection(),
+          dateSection(),
+          InkWell(
+            onTap: ()=>navPush(context, const KcalPage()),
+            child: kcalSection(),
+          ),
           _footBikeSection(),
-          _todayInfo()
+          _todayInfo(),
+          ElevatedButton(onPressed: ()=> navPush(context,KcalPage()) ,child:Text("Kcal"))
         ],
       ),
     );
   }
 
-  _kcalSection() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 30),
-      child: const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("1883 Kcal",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35)),
-          Text("Umumiy kilokaloriya", style: TextStyle(color: Colors.grey)),
-          Gap(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("7580 m",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text("Masofa", style: TextStyle(color: Colors.grey)),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("9822",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text("Qadamlar", style: TextStyle(color: Colors.grey)),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("75.1",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text("Yurak urushi", style: TextStyle(color: Colors.grey)),
-                ],
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
 
   _footBikeSection() {
     return Container(
@@ -112,11 +77,16 @@ class _DateShowerState extends State<AnalyzePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _singleDataBuilder(const Color(0xfffd758a), "Piyoda", 2, 23.1, 4654,
+          InkWell(onTap: ()=>navPush(context,const OnFootPage()),
+          child: _singleDataBuilder(const Color(0xfffd758a), "Piyoda", 2, 23.1, 4654,
               Icons.directions_run),
+          ),
           const Gap(20),
-          _singleDataBuilder(const Color(0xff383838), "Velosipedda", 24, 41.1,
-              2345, Icons.electric_bike)
+          InkWell(
+            onTap: ()=>navPush(context,const OnBikePage()),
+            child: _singleDataBuilder(const Color(0xff383838), "Velosipedda", 24, 41.1,
+                2345, Icons.electric_bike),
+          )
         ],
       ),
     );
@@ -166,16 +136,16 @@ class _DateShowerState extends State<AnalyzePage> {
           SizedBox(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  "$destination km",
+                  "$destination km  ",
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold, fontSize: 12),
                 ),
                 Row(
                   children: [
-                    Icon(Icons.water_drop_outlined, size: 15),
+                    const Icon(Icons.water_drop_outlined, size: 15),
                     Text(
                       "$kcal kcal  ",
                       style: GoogleFonts.poppins(
@@ -194,7 +164,7 @@ class _DateShowerState extends State<AnalyzePage> {
   _todayInfo() {
     final today = DateTime.now();
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -207,14 +177,77 @@ class _DateShowerState extends State<AnalyzePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Bugungu ma'lumot",
+                  const Text("Bugungi ma'lumot",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                  Text("${_getMonthName(today.month)} ${today.year}",
-                      style: GoogleFonts.poppins(color: Colors.grey, fontSize: 13)),
+                  Text("${getMonthName(today.month)} ${today.year}",
+                      style: GoogleFonts.poppins(
+                          color: Colors.grey, fontSize: 13)),
                 ],
               ),
-              Icon(Icons.more_vert,color: Colors.grey)
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.more_vert, color: Colors.grey))
+            ],
+          ),
+          const Gap(25),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _todayInfoBuilder(
+                      "Kaloriya", 630.23, "Kcal", Icons.water_drop_outlined),
+                  const Gap(15),
+                  _todayInfoBuilder(
+                      "Qadamlar", 1234, "Steps", Icons.directions_run),
+                ],
+              ),
+              const Gap(15),
+              Container(
+                padding: const EdgeInsets.only(top: 12, right: 12),
+                height: 245,
+                width: 156,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.grey.shade300)),
+                child: Stack(children: [
+                  LineChart(mainData()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Gap(12),
+                      Text("Yurak urishi",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold, fontSize: 13)),
+                      Icon(
+                        Icons.monitor_heart_outlined,
+                        color: AppColors.appColor,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 12,
+                    left: 12,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("74",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold, fontSize: 15)),
+                        Text("bpm",
+                            style: GoogleFonts.poppins(color: Colors.grey, fontSize: 11)),
+                      ],
+                    ),
+                  )
+                ]),
+              )
             ],
           )
         ],
@@ -222,79 +255,90 @@ class _DateShowerState extends State<AnalyzePage> {
     );
   }
 
-  _dateSection() {
-    final today = DateTime.now();
-    final dateStrings = [
-      for (int i = -3; i <= 3; i++)
-        i == 0
-            ? _formatToday(today)
-            : today.add(Duration(days: i)).day.toString()
-    ];
-    return SizedBox(
-      height: 35,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: dateStrings.map((dateString) {
-          final isToday = dateString.startsWith('Bugun');
-          return _buildDateTile(dateString, isToday);
-        }).toList(),
+  LineChartData mainData() {
+    return LineChartData(
+      gridData: const FlGridData(
+        show: false,
       ),
-    );
-  }
-
-  String _formatToday(DateTime date) {
-    return 'Bugun, ${date.day} ${_getMonthName(date.month)}';
-  }
-
-  String _getMonthName(int month) {
-    switch (month) {
-      case 1:
-        return 'Yanvar';
-      case 2:
-        return 'Fevral';
-      case 3:
-        return 'Mart';
-      case 4:
-        return 'Aprel';
-      case 5:
-        return 'May';
-      case 6:
-        return 'Iyun';
-      case 7:
-        return 'Iyul';
-      case 8:
-        return 'Avgust';
-      case 9:
-        return 'Sentyabr';
-      case 10:
-        return 'Oktyabr';
-      case 11:
-        return 'Noyabr';
-      case 12:
-        return 'Dekabr';
-      default:
-        return '';
-    }
-  }
-
-  Widget _buildDateTile(String dateString, bool isToday) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: isToday ? const Color(0xffebdafd) : null,
-        ),
-        child: Text(
-          dateString,
-          style: GoogleFonts.poppins(
-            fontSize: 13,
-            fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
-            color: isToday ? Colors.black : Colors.grey,
+      titlesData: const FlTitlesData(
+        show: false,
+      ),
+      borderData: FlBorderData(
+        show: false,
+      ),
+      minX: 0,
+      maxX: 12,
+      minY: 0,
+      maxY: 120,
+      lineBarsData: [
+        LineChartBarData(
+          curveSmoothness: 0.45,
+          spots: const [
+            FlSpot(0, 74),
+            FlSpot(2, 76),
+            FlSpot(4, 63),
+            FlSpot(6, 67),
+            FlSpot(8, 63),
+            FlSpot(10, 65),
+            FlSpot(12, 61),
+            FlSpot(13, 71),
+          ],
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: gradientColors,
           ),
+          barWidth: 2,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+              show: true,
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.appColor.withAlpha(100),
+                    AppColors.appColor.withAlpha(80),
+                    AppColors.appColor.withAlpha(60),
+                    AppColors.appColor.withAlpha(40),
+                    AppColors.appColor.withAlpha(0),
+                  ])),
         ),
+      ],
+    );
+  }
+
+  _todayInfoBuilder(String type, num howMuch, String exType, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      width: 156,
+      height: 115,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: Colors.grey.shade300)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(type,
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold, fontSize: 13)),
+              Icon(icon, size: 20, color: AppColors.appColor)
+            ],
+          ),
+          const Gap(15),
+          Text("$howMuch",
+              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold, fontSize: 15)),
+          Text(exType,
+              style: GoogleFonts.poppins(color: Colors.grey, fontSize: 11)),
+        ],
       ),
     );
   }
+
 }

@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthy_women/constants/colors_app.dart';
 import 'package:healthy_women/model/exe_model/news_model.dart';
+import 'package:healthy_women/presentation/screens/bottom_screens/analystics_pages/analystic_page.dart';
 import 'package:healthy_women/presentation/widgets/leading_icon.dart';
 import '../../../../constants/navigators.dart';
 
@@ -36,7 +37,10 @@ class _DetailedNewState extends State<DetailedNew> {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(
-        children: [_imagedSection(), _descSection(), _nextRecommendedNews()],
+        children: [_imagedSection(), _descSection(), _nextRecommendedNews(),
+          ElevatedButton(onPressed: ()=> navPush(context,const AnalyzePage()) ,child:const Text("analyze"))
+
+        ],
       ),
     );
   }
