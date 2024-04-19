@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_women/presentation/screens/auth_init_screens/access.dart';
 import 'package:healthy_women/presentation/screens/bottom_screens/analystics_pages/analystic_page.dart';
+import 'package:healthy_women/presentation/screens/bottom_screens/calory_screen/p_kaloriya.dart';
 
 void main() {
   runApp(const HealthyWomen());
@@ -17,7 +19,7 @@ class HealthyWomen extends StatelessWidget {
         useMaterial3: true,
         primaryColor: const Color(0xfff4f5f6)
       ),
-      home: const AnalyzePage(),
+      home: const Access(),
     );
   }
 }

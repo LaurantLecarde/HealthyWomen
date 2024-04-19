@@ -67,6 +67,10 @@ flutter:
     - assets/images/
     - assets/images/meals/
     - assets/images/pro/
+    - assets/images/calory/
+    - assets/images_on_boarding/
+    - assets/images_on_boarding/onboarding-1/
+    - assets/images_on_boarding/onboarding-2/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
